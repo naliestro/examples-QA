@@ -1,0 +1,1809 @@
+{
+	"info": {
+		"_postman_id": "ac058b14-b5be-4462-adb0-04f0c883f270",
+		"name": "Petstore homework",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22975498"
+	},
+	"item": [
+		{
+			"name": "Creates list of users (2+)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{User1}}\",\n    \"firstName\": \"Kostiantyn\",\n    \"lastName\": \"Trachuk\",\n    \"email\": \"naliestro@gmail.com\",\n    \"password\": \"hello\",\n    \"phone\": \"+38(010)-555-55-55\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"username\": \"{{User2}}\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"johndoe@gmail.com\",\n    \"password\": \"hellooncenoretime\",\n    \"phone\": \"+38(010)-111-11-11\",\n    \"userStatus\": 0\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/createWithArray",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"createWithArray"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"username\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"password\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Username check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"User1\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.text();\r",
+							"U1_id = jsonData.match(\"\\[0-9]{1,}\");\r",
+							"pm.environment.set(\"U1_ID\", U1_id)\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_password\", jsonData.password);\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_username\", jsonData.username);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"username\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"password\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Username check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"User2\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.text();\r",
+							"U2_id = jsonData.match(\"\\[0-9]{1,}\");\r",
+							"pm.environment.set(\"U2_ID\", U2_id)\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U2_password\", jsonData.password);\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U2_username\", jsonData.username);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U1_username}}&password={{U1_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U1_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system  U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U2_username}}&password={{U2_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U2_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U2_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updated user 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{U1_ID}},\n  \"username\": \"{{U1_username}}\",\n  \"firstName\": \"Kostiantyn\",\n  \"lastName\": \"Trachuk\",\n  \"email\": \"naliestro@gmail.com\",\n  \"password\": \"{{Password1}}\",\n  \"phone\": \"+38(010)-555-55-55\",\n  \"userStatus\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}",
+							"description": "(Required) name that need to be updated"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"username\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"password\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.password).to.eql(pm.environment.get(\"Password1\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_password\", jsonData.password);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updated user 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{U2_ID}},\n  \"username\": \"{{Name2}}\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"johndoe@gmail.com\",\n  \"password\": \"hellooncenoretime\",\n  \"phone\": \"+38(010)-111-11-11\",\n  \"userStatus\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U2_username}}",
+							"description": "(Required) name that need to be updated"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"username\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"password\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Username check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"Name2\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U2_username\", jsonData.username);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{Name2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U1_username}}&password={{U1_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U1_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system  U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U2_username}}&password={{U2_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U2_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U2_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U2_username}}"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"U1_ID\");\r",
+							"pm.environment.unset(\"U1_password\");\r",
+							"pm.environment.unset(\"U1_username\");\r",
+							"pm.environment.unset(\"U2_ID\");\r",
+							"pm.environment.unset(\"U2_password\");\r",
+							"pm.environment.unset(\"U2_username\");\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U2_username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creates list of users (1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{User1}}\",\n    \"firstName\": \"Kostiantyn\",\n    \"lastName\": \"Trachuk\",\n    \"email\": \"naliestro@gmail.com\",\n    \"password\": \"hello\",\n    \"phone\": \"+38(010)-555-55-55\",\n    \"userStatus\": 0\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/createWithArray",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"createWithArray"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches password\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"username\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Password check type\", () => {\r",
+							"_.each(pm.response.json().response, (item) => {\r",
+							"pm.expect(typeof item[\"password\"]).to.be.oneOf(['string','object']);\r",
+							"})\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Username check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"User1\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.text();\r",
+							"U1_id = jsonData.match(\"\\[0-9]{1,}\");\r",
+							"pm.environment.set(\"U1_ID\", U1_id)\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_password\", jsonData.password);\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_username\", jsonData.username);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U1_username}}&password={{U1_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U1_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"U1_ID\");\r",
+							"pm.environment.unset(\"U1_password\");\r",
+							"pm.environment.unset(\"U1_username\");\r",
+							"pm.environment.unset(\"U2_ID\");\r",
+							"pm.environment.unset(\"U2_password\");\r",
+							"pm.environment.unset(\"U2_username\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"U1_ID\");\r",
+							"pm.environment.unset(\"U1_password\");\r",
+							"pm.environment.unset(\"U1_username\");\r",
+							"pm.environment.unset(\"U2_ID\");\r",
+							"pm.environment.unset(\"U2_password\");\r",
+							"pm.environment.unset(\"U2_username\");\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creates list of users (0)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/createWithArray",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"createWithArray"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creates list of users (2+) (no password/username)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{User1}}\",\n    \"firstName\": \"Kostiantyn\",\n    \"lastName\": \"Trachuk\",\n    \"email\": \"naliestro@gmail.com\",\n    \"phone\": \"+38(010)-555-55-55\",\n    \"userStatus\": 0\n  },\n  {\n    \"id\": 0,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"johndoe@gmail.com\",\n    \"password\": \"hellooncenoretime\",\n    \"phone\": \"+38(010)-111-11-11\",\n    \"userStatus\": 0\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/user/createWithArray",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"createWithArray"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U1 (no password)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body doesn't match password\", function () {\r",
+							"    pm.expect(pm.response.text()).not.to.include(\"password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches username\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"username\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Username check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"User1\"));\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.text();\r",
+							"U1_id = jsonData.match(\"\\[0-9]{1,}\");\r",
+							"pm.environment.set(\"U1_ID\", U1_id)\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_password\", jsonData.password);\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"U1_username\", jsonData.username);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name U2 (no username)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{User2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs user into the system U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/login?username={{U1_username}}&password={{U1_password}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}",
+							"description": "(Required) The user name for login"
+						},
+						{
+							"key": "password",
+							"value": "{{U1_password}}",
+							"description": "(Required) The password for login in clear text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logs out current logged in user session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user U1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by user name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user U2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"U1_ID\");\r",
+							"pm.environment.unset(\"U1_password\");\r",
+							"pm.environment.unset(\"U1_username\");\r",
+							"pm.environment.unset(\"U2_ID\");\r",
+							"pm.environment.unset(\"U2_password\");\r",
+							"pm.environment.unset(\"U2_username\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/:username",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						":username"
+					],
+					"variable": [
+						{
+							"key": "username",
+							"value": "{{U1_username}}"
+						}
+					]
+				},
+				"description": "This can only be done by the logged in user."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://petstore.swagger.io/v2",
+			"type": "string"
+		}
+	]
+}
