@@ -1,0 +1,2101 @@
+{
+	"info": {
+		"_postman_id": "1ab5b630-fd8f-4af0-bb38-626b1ff3b418",
+		"name": "Automation Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22975498"
+	},
+	"item": [
+		{
+			"name": "Create new session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"SessionId\", jsonData.sessionId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"desiredCapabilities\": {\n        \"caps\": {\n            \"nativeEvents\": false,\n            \"browserName\": \"chrome\",\n            \"version\": \"\",\n            \"platform\": \"ANY\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Maximize window",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [500])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"desiredCapabilities\": {\n        \"caps\": {\n            \"nativeEvents\": false,\n            \"browserName\": \"chrome\",\n            \"version\": \"\",\n            \"platform\": \"ANY\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/window/maximize",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"window",
+						"maximize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [500])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\":\"https://rozetka.com.ua/\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is this the right website?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.eql('https://rozetka.com.ua/ua/');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page source",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Include RozetkaLTD\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"RozetkaLTD\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/source",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"source"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Search input field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-header/rz-main-header/header/div/div/div/form/div/div/input\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Search value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"Іграшки для собак\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Category dropdown element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-header/rz-main-header/header/div/div/div/form/div/div[2]/ul/li[2]/ul/li[2]/span\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click Category element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is this the right website?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.include('https://rozetka.com.ua/');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find min Price input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-search/rz-catalog/div/div[2]/aside/rz-filter-stack/div[4]/div/rz-scrollbar/div/div[1]/div/div/rz-filter-slider/form/fieldset/div/input[1]\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clear min Price field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/clear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"clear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set min Price value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"350\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find max Price input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-search/rz-catalog/div/div[2]/aside/rz-filter-stack/div[4]/div/rz-scrollbar/div/div[1]/div/div/rz-filter-slider/form/fieldset/div/input[2]\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clear max Price field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/clear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"clear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set max Price value",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"600\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find OK button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [500])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-search/rz-catalog/div/div[2]/aside/rz-filter-stack/div[4]/div/rz-scrollbar/div/div[1]/div/div/rz-filter-slider/form/fieldset/div/button\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click OK button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is this the right website?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.include('https://rozetka.com.ua/');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Was this the right search?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.include('350-600');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Product shortcut",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-search/rz-catalog/div/div[2]/section/rz-grid/ul/li[1]/rz-catalog-tile/app-goods-tile-default/div/div[2]/a[1]\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click Product shortcut",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find to Buy button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-product/div/rz-product-tab-main/div[1]/div[1]/div[2]/rz-product-main-info/div[1]/div[1]/ul/li[1]/rz-product-buy-btn/app-buy-button\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click to Buy button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Amount input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/rz-single-modal-window/div[3]/div[2]/rz-shopping-cart/div/ul/li/rz-cart-product/div/div[2]/rz-cart-counter/div/input\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clear Amount input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/clear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"clear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Amount input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"2\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Create Order button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"//a[contains(text(),'Оформити замовлення')]\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click Create Order button",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page URL Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Is this the placing an order page?\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.eql('https://rozetka.com.ua/ua/checkout/');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Surname input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-checkout-main/section/rz-checkout-orders/rz-checkout-orders-content/div/form/div/main/rz-checkout-contact-info/fieldset/div[2]/div[1]/div[1]/input\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Surname input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"Доу\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Name input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-checkout-main/section/rz-checkout-orders/rz-checkout-orders-content/div/form/div/main/rz-checkout-contact-info/fieldset/div[2]/div[1]/div[2]/input\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Name input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"Джон\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Tel input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-checkout-main/section/rz-checkout-orders/rz-checkout-orders-content/div/form/div/main/rz-checkout-contact-info/fieldset/div[2]/div[2]/div/input\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Tel input",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"value\": [\n        \"0971111111\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Recipient dropdown",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-checkout-main/section/rz-checkout-orders/rz-checkout-orders-content/div/form/div/main/rz-checkout-order/div/div[2]/rz-checkout-order-recipient/fieldset/div[1]/rz-checkout-user-recipients/rz-checkout-dropdown/div/button\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click Recipient dropdown",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find First record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ElementId\", jsonData.value.ELEMENT);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"using\": \"xpath\",\n    \"value\": \"/html/body/app-root/div/div/rz-checkout-main/section/rz-checkout-orders/rz-checkout-orders-content/div/form/div/main/rz-checkout-order/div/div[2]/rz-checkout-order-recipient/fieldset/div[1]/rz-checkout-user-recipients/rz-checkout-dropdown/div/div/ul/li[1]/div\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click First record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [2000])\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/element/{{ElementId}}/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"element",
+						"{{ElementId}}",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get page source Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Include the right name\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Джон\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Include the right surname\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Доу\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}/source",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}",
+						"source"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quit&close Chrome session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, [8000]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9515/session/{{SessionId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9515",
+					"path": [
+						"session",
+						"{{SessionId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
